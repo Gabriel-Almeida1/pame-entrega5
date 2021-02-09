@@ -1,4 +1,4 @@
-from flask import request, Blueprint, jsonify
+from flask import request, Blueprint
 from ..extensions import db
 from .model import Usuarios
 from ..pagamentos.model import Pagamentos
@@ -91,3 +91,5 @@ def registrarCartao():
         db.session.commit()
 
         return usuario.json(), 200
+
+# Fazer funções para atualizar os dados.
