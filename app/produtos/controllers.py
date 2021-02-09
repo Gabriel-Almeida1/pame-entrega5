@@ -4,12 +4,12 @@ from .model import Produtos
 
 produtos_api = Blueprint('produtos_api', __name__)
 
-@produtos_api.route('/produtos',methods=['GET']) # Ver uma lista com os produtos existentes, com seus estoques e preços
+@produtos_api.route('/produtos', methods=['GET']) # Ver uma lista com os produtos existentes, com seus estoques e preços
 def listaProdutos():
     produtos = Produtos.query.all() # Pega todos os produtos do db
     return jsonify([produto.json() for produto in produtos]), 200
 
-@produtos_api.route('/produtos/registrar',methods=['POST']) # Registrar um produto novo no site
+@produtos_api.route('/produtos/registrar', methods=['POST']) # Registrar um produto novo no site
 def registrarProduto():
     # Vai ser passado o nome, estoque e preco do produto
     dados = request.json
@@ -37,9 +37,36 @@ def registrarProduto():
 
     return produto.json(), 200
 
+@produtos_api.route('/produtos/estoque', methods=['GET']) # Verificar o estoque de um produto especifico
+def estoqueProduto():
+    # Vai receber o nome do produto
+    dados = request.json
 
-#@produtos_api.route('/produtos/estoque',methods=['GET']) # Verificar o estoque de um produto
-#def estoqueProduto():
+    nome = dados.get('nome')
 
-#@produtos_api.route('/produtos/preco',methods=['POST']) # Ver o preço de um produto específico
-#def precoProduto():
+    if nome == '' or nome == None:
+        return{"Erro":"Nome é obrigatório"}, 400
+
+    produto = Produtos.query.filter_by(nome=nome).first()
+
+    if not produto:
+        return{"Erro":"Produto não cadastrado"}, 400
+    
+    return jsonify(produto.estoque), 200
+
+@produtos_api.route('/produtos/preco', methods=['GET']) # Ver o preço de um produto específico
+def precoProduto():
+    # Vai receber o nome do produto
+    dados = request.json
+
+    nome = dados.get('nome')
+
+    if nome == '' or nome == None:
+        return{"Erro":"Nome é obrigatório"}, 400
+
+    produto = Produtos.query.filter_by(nome=nome).first()
+
+    if not produto:
+        return{"Erro":"Produto não cadastrado"}, 400
+    
+    return jsonify(produto.preco), 200
