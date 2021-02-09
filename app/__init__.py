@@ -6,6 +6,7 @@ from .extensions import db, migrate
 from .usuarios.model import Usuarios
 from .pagamentos.model import Pagamentos
 
+from .usuarios.controllers import usuario_api
 
 def create_app():
     app = Flask(__name__)
@@ -13,5 +14,7 @@ def create_app():
 
     db.init_app(app)
     migrate.init_app(app,db)
+
+    app.register_blueprint(usuario_api)   
 
     return app
