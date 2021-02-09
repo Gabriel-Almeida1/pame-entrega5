@@ -3,6 +3,9 @@ from flask import Flask
 from .config import Config
 from .extensions import db, migrate
 
+from .usuarios.model import Usuarios
+from .pagamentos.model import Pagamentos
+
 
 def create_app():
     app = Flask(__name__)
