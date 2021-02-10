@@ -18,8 +18,8 @@ def registrarProduto():
     estoque = dados.get('estoque')
     preco = dados.get('preco')
 
-    if nome == '' or nome == None:
-            return{"Erro":"Nome é obrigatório"}, 400
+    if nome == '' or nome == None or not isinstance(nome,str):
+        return{"Erro":"Nome é obrigatório e deve ser tipo string"}, 400
 
     if not isinstance(estoque, int) or estoque == None:
         return{"Erro":"Estoque Inválido, deve ser tipo int"}, 400
@@ -44,8 +44,8 @@ def estoqueProduto():
 
     nome = dados.get('nome')
 
-    if nome == '' or nome == None:
-        return{"Erro":"Nome é obrigatório"}, 400
+    if nome == '' or nome == None or not isinstance(nome,str):
+        return{"Erro":"Nome é obrigatório e deve ser tipo string"}, 400
 
     produto = Produtos.query.filter_by(nome=nome).first()
 
@@ -61,8 +61,8 @@ def precoProduto():
 
     nome = dados.get('nome')
 
-    if nome == '' or nome == None:
-        return{"Erro":"Nome é obrigatório"}, 400
+    if nome == '' or nome == None or not isinstance(nome,str):
+        return{"Erro":"Nome é obrigatório e deve ser tipo string"}, 400
 
     produto = Produtos.query.filter_by(nome=nome).first()
 
@@ -70,5 +70,3 @@ def precoProduto():
         return{"Erro":"Produto não cadastrado"}, 400
     
     return jsonify(produto.preco), 200
-
-#Fazer funcao de deletar

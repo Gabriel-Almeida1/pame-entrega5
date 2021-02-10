@@ -6,17 +6,17 @@ from ..usuarios.model import Usuarios
 mensagens_api = Blueprint('mensagens_api', __name__)
 
 @mensagens_api.route('/fale-conosco',methods=['POST'])
-def receberMensagem():
+def receberMensagem(): #recebe "text" e "cpf"
     # Vai receber um texo na "variavel" text e o cpf do usuario
     dados = request.json
 
     mensagem = dados.get('text')
     cpf = dados.get('cpf')
 
-    if mensagem == '' or mensagem == None:
+    if mensagem == '' or mensagem == None or not isinstance(mensagem, str):
         return{"Erro":"Mensagem vazia"}, 400
 
-    if cpf == '' or cpf == None:
+    if cpf == '' or cpf == None or not isinstance(cpf, str):
         return{"Erro":"CPF obrigatório (formato: xxx.xxx.xxx-xx)"}, 400
         
     user = Usuarios.query.filter_by(cpf=cpf).first()
