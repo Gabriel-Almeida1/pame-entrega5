@@ -12,6 +12,10 @@ class Usuarios(db.Model):
     # Considerando que o cliente pode querer cadastrar múltiplas formas de pagamento
     pagamentos = db.relationship('Pagamentos', backref='owner') # One (Usuario) to many (pagamentos)
 
+    carrinho = db.relationship('Carrinhos', uselist=False, backref='usuario') # One (usuario) to One (carrinho)
+
+    mensagem = db.relationship('Mensagens', backref='owner') # One (usuario) to many (mensagens)
+
     def json(self):
         return{
             'nome': self.nome,

@@ -70,3 +70,5 @@ def precoProduto():
         return{"Erro":"Produto não cadastrado"}, 400
     
     return jsonify(produto.preco), 200
+
+#Fazer funcao de deletar
